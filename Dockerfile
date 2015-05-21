@@ -1,4 +1,4 @@
-FROM ubuntu:14.04
+FROM apollo13/ubuntu:14.04
 MAINTAINER Pavel Železný "pavel.zelezny@apollo13.cz"
 
 # Install RabbitMQ

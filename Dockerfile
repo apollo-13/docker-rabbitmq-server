@@ -1,6 +1,8 @@
 FROM apollo13/ubuntu:14.04
 MAINTAINER Pavel Železný "pavel.zelezny@apollo13.cz"
 
+ENV SERVER_NAME rabbitmq
+
 # Install RabbitMQ
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F7B8CEA6056E8E56 && \
     echo "deb http://www.rabbitmq.com/debian/ testing main" >> /etc/apt/sources.list && \

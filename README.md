@@ -10,6 +10,8 @@ Preferred way to install and using the project is via the [Docker Hub](https://h
 
 ## Running the RabbitMQ server ##
 
+On development environment, before the starting of the server check existence of running Redis docker image as is described in apollo13/ubuntu README.md
+
 Run the following command to start rabbitmq:
 
 	docker run --name rabbitmq-server -d -p 5672:5672 -p 15672:15672 apollo13/rabbitmq-server
@@ -46,6 +48,11 @@ Or try to open [Rabbit MQ management](https://www.rabbitmq.com/management.html) 
 Alternatively you can set up initial username and password while starting the container using environment variables:
 
 	docker run --name rabbitmq-server -d -p 5672:5672 -p 15672:15672 -e RABBITMQ_USER=apollo -e RABBITMQ_PASS=mysecretpassword apollo13/rabbitmq-server
+
+For Development environment you have to set link to docker container with redis for storing credentials for other containers
+
+	docker run --name rabbitmq-server -d -p 5672:5672 -p 15672:15672 --link config-service:config-service apollo13/rabbitmq-server
+
 
 ## Building Docker image locally
 

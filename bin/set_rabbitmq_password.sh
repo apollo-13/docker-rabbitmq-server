@@ -26,7 +26,5 @@ echo ""
 echo "Please remember to change the above password as soon as possible!"
 echo "========================================================================"
 
-config-service-set "${SERVER_NAME}_host"          "$CONTAINER_IPV4_ADDRESS"
-config-service-set "${SERVER_NAME}_port"          "5672"
 config-service-set "${SERVER_NAME}_adminUser"     "$USER"
 config-service-set "${SERVER_NAME}_adminPassword" "$PASS"

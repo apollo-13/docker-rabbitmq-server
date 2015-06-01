@@ -6,6 +6,10 @@ if [ ! -f /.rabbitmq_password_set ]; then
     /set_rabbitmq_password.sh
 fi
 
+# register current IP address into config-service
+config-service-set "${SERVER_NAME}_host" "$CONTAINER_IPV4_ADDRESS"
+config-service-set "${SERVER_NAME}_port" "5672"
+
 # make rabbit own its own files
 chown -R rabbitmq:rabbitmq /var/lib/rabbitmq
 

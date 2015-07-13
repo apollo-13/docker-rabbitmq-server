@@ -7,7 +7,8 @@ if [ ! -f /.rabbitmq_password_set ]; then
 fi
 
 # register current IP address into config-service
-config-service-set "${SERVER_NAME}_host" "$CONTAINER_IPV4_ADDRESS"
+config-service-set "${SERVER_NAME}_host" "${HOST_IPV4_ADDRESS:-${CONTAINER_IPV4_ADDRESS}}"
+config-service-set "${SERVER_NAME}_hostPrivate" "$CONTAINER_IPV4_ADDRESS"
 config-service-set "${SERVER_NAME}_port" "5672"
 
 # make rabbit own its own files

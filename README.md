@@ -14,17 +14,19 @@ On development environment, before the starting of the server check existence of
 
 Run the following command to start rabbitmq:
 
-    docker run --name rabbitmq-server -d -p 5672:5672 -p 15672:15672 apollo13/rabbitmq-server
+    docker run --name rabbitmq-server -d -p 5672:5672 -p 15672:15672 -p 15674:15674 apollo13/rabbitmq-server
 
 *For [boot2docker](https://github.com/boot2docker/boot2docker-cli) users*: Set port forwarding from [boot2docker](https://github.com/boot2docker/boot2docker/blob/master/doc/WORKAROUNDS.md) to local computer:
 
     VBoxManage modifyvm "boot2docker-vm" --natpf1 "tcp-port5672,tcp,,5672,,5672";
     VBoxManage modifyvm "boot2docker-vm" --natpf1 "tcp-port15672,tcp,,15672,,15672";
+    VBoxManage modifyvm "boot2docker-vm" --natpf1 "tcp-port15674,tcp,,15674,,15674";
 
 For already running boot2docker virtual:
 
     VBoxManage controlvm "boot2docker-vm" natpf1 "tcp-port5672,tcp,,5672,,5672";
     VBoxManage controlvm "boot2docker-vm" natpf1 "tcp-port15672,tcp,,15672,,15672";
+    VBoxManage controlvm "boot2docker-vm" natpf1 "tcp-port15674,tcp,,15674,,15674";
 
 The first time that you run your container, a new random password will be set.
 To get the password, check the logs of the container by running:
@@ -52,11 +54,11 @@ Or try to open [Rabbit MQ management](https://www.rabbitmq.com/management.html) 
 
 Alternatively you can set up initial username and password while starting the container using environment variables:
 
-    docker run --name rabbitmq-server -d -p 5672:5672 -p 15672:15672 -e RABBITMQ_USER=apollo -e RABBITMQ_PASS=mysecretpassword apollo13/rabbitmq-server
+    docker run --name rabbitmq-server -d -p 5672:5672 -p 15672:15672 -p 15674:15674 -e RABBITMQ_USER=apollo -e RABBITMQ_PASS=mysecretpassword apollo13/rabbitmq-server
 
 For Development environment you have to set link to docker container with redis for storing credentials for other containers
 
-    docker run --name rabbitmq-server -d -p 5672:5672 -p 15672:15672 --link config-service:config-service apollo13/rabbitmq-server
+    docker run --name rabbitmq-server -d -p 5672:5672 -p 15672:15672 -p 15674:15674 --link config-service:config-service apollo13/rabbitmq-server
 
 
 ## Building Docker image locally

@@ -10,6 +10,8 @@ fi
 config-service-set "${SERVER_NAME}_host" "${HOST_IPV4_ADDRESS:-${CONTAINER_IPV4_ADDRESS}}"
 config-service-set "${SERVER_NAME}_hostPrivate" "$CONTAINER_IPV4_ADDRESS"
 config-service-set "${SERVER_NAME}_port" "5672"
+config-service-set "${SERVER_NAME}_portManagement" "15672"
+config-service-set "${SERVER_NAME}_portWebStomp" "15674"
 
 # make rabbit own its own files
 chown -R rabbitmq:rabbitmq /var/lib/rabbitmq

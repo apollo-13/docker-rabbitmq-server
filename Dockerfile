@@ -1,7 +1,7 @@
 FROM apollo13/ubuntu:14.04
-MAINTAINER Pavel Železný "pavel.zelezny@apollo13.cz"
+MAINTAINER Pavel Železný <pavel.zelezny@apollo13.cz>
 
-ENV SERVER_NAME rabbitmq
+ENV SERVER_NAME=rabbitmq
 
 # Install RabbitMQ
 RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F7B8CEA6056E8E56 && \
@@ -10,16 +10,15 @@ RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys F7B8CEA6056E8E56 &&
     apt-get install -y rabbitmq-server pwgen && \
     rabbitmq-plugins enable rabbitmq_management rabbitmq_web_stomp && \
     apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
 
-RUN echo "ERLANGCOOKIE" > /var/lib/rabbitmq/.erlang.cookie
-RUN chown rabbitmq:rabbitmq /var/lib/rabbitmq/.erlang.cookie
-RUN chmod 400 /var/lib/rabbitmq/.erlang.cookie
+    echo "ERLANGCOOKIE" > /var/lib/rabbitmq/.erlang.cookie && \
+    chown rabbitmq:rabbitmq /var/lib/rabbitmq/.erlang.cookie && \
+    chmod 400 /var/lib/rabbitmq/.erlang.cookie
 
 # Add scripts
-ADD bin/run.sh /run.sh
-ADD bin/set_rabbitmq_password.sh /set_rabbitmq_password.sh
-RUN chmod 755 ./*.sh
+COPY bin/run.sh bin/set_rabbitmq_password.sh /
 
 EXPOSE 5672 15672 15674
+
 CMD ["/run.sh"]

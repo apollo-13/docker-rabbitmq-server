@@ -14,7 +14,7 @@ On development environment, before the starting of the server check existence of
 
 Run the following command to start rabbitmq:
 
-    docker run --name rabbitmq-server -d -p 5672:5672 -p 15672:15672 -p 15674:15674 apollo13/rabbitmq-server
+    docker run --name rabbitmq-server -d -p 5672:5672 -p 15672:15672 -p 15674:15674 --env EC2_ENVIRONMENT=false apollo13/rabbitmq-server
 
 *For [boot2docker](https://github.com/boot2docker/boot2docker-cli) users*: Set port forwarding from [boot2docker](https://github.com/boot2docker/boot2docker/blob/master/doc/WORKAROUNDS.md) to local computer:
 
@@ -54,11 +54,11 @@ Or try to open [Rabbit MQ management](https://www.rabbitmq.com/management.html) 
 
 Alternatively you can set up initial username and password while starting the container using environment variables:
 
-    docker run --name rabbitmq-server -d -p 5672:5672 -p 15672:15672 -p 15674:15674 -e RABBITMQ_USER=apollo -e RABBITMQ_PASS=mysecretpassword apollo13/rabbitmq-server
+    docker run --name rabbitmq-server -d -p 5672:5672 -p 15672:15672  -p 15674:15674 --env RABBITMQ_USER=apollo --env RABBITMQ_PASS=mysecretpassword --env EC2_ENVIRONMENT=false apollo13/rabbitmq-server
 
 For Development environment you have to set link to docker container with redis for storing credentials for other containers
 
-    docker run --name rabbitmq-server -d -p 5672:5672 -p 15672:15672 -p 15674:15674 --link config-service:config-service apollo13/rabbitmq-server
+    docker run --name rabbitmq-server -d -p 5672:5672 -p 15672:15672 -p 15674:15674 --link --env EC2_ENVIRONMENT=false config-service:config-service apollo13/rabbitmq-server
 
 
 ## Building Docker image locally

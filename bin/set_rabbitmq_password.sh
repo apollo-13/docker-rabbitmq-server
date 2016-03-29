@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [ -f /.rabbitmq_password_set ]; then
+if [ -f /.rabbitmq_config_initialized ]; then
     echo "RabbitMQ password already set!"
     exit 0
 fi
@@ -9,14 +9,11 @@ PASS=${RABBITMQ_PASS:-$(pwgen -s 12 1)}
 USER=${RABBITMQ_USER:-"admin"}
 _word=$( [ ${RABBITMQ_PASS} ] && echo "preset" || echo "random" )
 echo "=> Securing RabbitMQ with a ${_word} password"
-cat > /etc/rabbitmq/rabbitmq.config <<EOF
-[
-    {rabbit, [{default_user, <<"$USER">>},{default_pass, <<"$PASS">>},{tcp_listeners, [{"0.0.0.0", 5672}]}]}
-].
-EOF
+
+sed -i 's~{default_user}~'"$USER"'~' /etc/rabbitmq/rabbitmq.config
+sed -i 's~{default_pass}~'"$PASS"'~' /etc/rabbitmq/rabbitmq.config
 
 echo "=> Done!"
-touch /.rabbitmq_password_set
 
 echo "========================================================================"
 echo "You can now connect to this RabbitMQ server using, for example:"

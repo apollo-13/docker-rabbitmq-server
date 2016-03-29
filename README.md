@@ -1,6 +1,6 @@
 # RabbitMQ server #
 
-Simple implementation of the [RabbitMQ server](https://www.rabbitmq.com) [Docker](https://www.docker.com) image based on [Tatum](https://github.com/tutumcloud/tutum-docker-rabbitmq) code.
+Simple implementation of the [RabbitMQ server](https://www.rabbitmq.com) [Docker](https://www.docker.com) image based on [Tutum](https://github.com/tutumcloud/tutum-docker-rabbitmq) code.
 
 ## Instalation ##
 
@@ -14,17 +14,19 @@ On development environment, before the starting of the server check existence of
 
 Run the following command to start rabbitmq:
 
-    docker run --name rabbitmq-server -d -p 5672:5672 -p 15672:15672 -p 15674:15674 --env EC2_ENVIRONMENT=false apollo13/rabbitmq-server
+    docker run --name rabbitmq-server -d -p 5672:5672 -p 15671:15671 -p 15672:15672 -p 15674:15674 --env EC2_ENVIRONMENT=false apollo13/rabbitmq-server
 
 *For [boot2docker](https://github.com/boot2docker/boot2docker-cli) users*: Set port forwarding from [boot2docker](https://github.com/boot2docker/boot2docker/blob/master/doc/WORKAROUNDS.md) to local computer:
 
     VBoxManage modifyvm "boot2docker-vm" --natpf1 "tcp-port5672,tcp,,5672,,5672";
+    VBoxManage modifyvm "boot2docker-vm" --natpf1 "tcp-port15672,tcp,,15671,,15671";
     VBoxManage modifyvm "boot2docker-vm" --natpf1 "tcp-port15672,tcp,,15672,,15672";
     VBoxManage modifyvm "boot2docker-vm" --natpf1 "tcp-port15674,tcp,,15674,,15674";
 
 For already running boot2docker virtual:
 
     VBoxManage controlvm "boot2docker-vm" natpf1 "tcp-port5672,tcp,,5672,,5672";
+    VBoxManage controlvm "boot2docker-vm" natpf1 "tcp-port15672,tcp,,15671,,15671";
     VBoxManage controlvm "boot2docker-vm" natpf1 "tcp-port15672,tcp,,15672,,15672";
     VBoxManage controlvm "boot2docker-vm" natpf1 "tcp-port15674,tcp,,15674,,15674";
 
@@ -54,11 +56,11 @@ Or try to open [Rabbit MQ management](https://www.rabbitmq.com/management.html) 
 
 Alternatively you can set up initial username and password while starting the container using environment variables:
 
-    docker run --name rabbitmq-server -d -p 5672:5672 -p 15672:15672  -p 15674:15674 --env RABBITMQ_USER=apollo --env RABBITMQ_PASS=mysecretpassword --env EC2_ENVIRONMENT=false apollo13/rabbitmq-server
+    docker run --name rabbitmq-server -d -p 5672:5672 -p 15671:15671 -p 15672:15672  -p 15674:15674 --env RABBITMQ_USER=apollo --env RABBITMQ_PASS=mysecretpassword --env EC2_ENVIRONMENT=false apollo13/rabbitmq-server
 
 For Development environment you have to set link to docker container with redis for storing credentials for other containers
 
-    docker run --name rabbitmq-server -d -p 5672:5672 -p 15672:15672 -p 15674:15674 --link --env EC2_ENVIRONMENT=false config-service:config-service apollo13/rabbitmq-server
+    docker run --name rabbitmq-server -d -p 5672:5672 -p 15671:15671 -p 15672:15672 -p 15674:15674 --link --env EC2_ENVIRONMENT=false config-service:config-service apollo13/rabbitmq-server
 
 
 ## Building Docker image locally
@@ -75,3 +77,16 @@ Preferred way to build the Docker image is via the [GIT](http://git-scm.com).
 Build the image in the root folder `./` of the cloned repository
 
     docker build -t apollo13/rabbitmq-server .
+
+## Settings
+
+The following environment variables are supported:
+
+RABBITMQ_USER
+: Name of the administrator account to be created (default *admin*).
+
+RABBITMQ_PASS
+: Password to the administrator account specified in RABBITMQ_USER setting.
+
+RABBITMQ_SSL_CERT, RABBITMQ_SSL_KEY, RABBITMQ_SSL_CACERT
+: SSL certificates for WebStomp.
